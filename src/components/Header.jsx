@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from 'react';
 import { StaticImage } from "gatsby-plugin-image"
 import { Link } from "gatsby";
 
@@ -9,19 +9,45 @@ const NavLink = (props) => (
     />
 );
 
-const Header = () => (
-    <header>
-        <nav className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
-            <div className="flex items-center">
-                <StaticImage src="../images/logo.png" />
-            </div>
+const ExternalNavLink = (props) => (
+    <a {...props} className="
+        text-xl font-bold text-gray-200 transition-colors 
+        duration-100 transform hover:text-red-400" 
+    />
+);
 
-            <div class="flex-col mt-2 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0">
-                <NavLink>Home</NavLink>
-                <NavLink>About Us</NavLink>
+function Header(props) {
+
+    const [open, setOpen] = useState(false);
+
+    const menuClasses = (open ? 'flex' : 'hidden') + ' flex-col mt-2 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0';
+
+    return (
+    <header className="my-3">
+        <nav className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
+            <div className="flex items-center justify-between">
+                <StaticImage loading="eager" height={96} className="mr-5"  src="../images/logo.png" alt="Red Slug Trading Co." />
+                <div className="flex md:hidden">
+                    <button onClick={() => setOpen(open => !open)} type="button" className="text-gray-200 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+                        aria-label="toggle menu">
+                        <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
+                            <path fillRule="evenodd"
+                                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div className={menuClasses}>
+                <NavLink to="#">Home</NavLink>
+                <NavLink to="#">About Us</NavLink>
+                <ExternalNavLink href="https://discord.gg/b2EcsYdXnN" target="_blank" rel="noopener noreferrer">Discord</ExternalNavLink>
+                <ExternalNavLink href="https://inara.cz/squadron/7896/" target="_blank" rel="noopener noreferrer">Inara</ExternalNavLink>
             </div>
         </nav>
     </header>
-);
+    )
+}
 
 export default Header;
